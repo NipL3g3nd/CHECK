@@ -1,0 +1,49 @@
+import math
+
+while True:
+    oct1 = int(input("Введите 1 октет "))
+    while oct1 < 0 or oct1 > 255:
+        print('Введите от 0 до 255')
+        oct1 = int(input("Введите 1 октет "))
+    oct2 = int(input("Введите 2 октет "))
+    while oct2 < 0 or oct2 > 255:
+        print('Введите от 0 до 255')
+        oct2 = int(input("Введите 2 октет "))
+    oct3 = int(input("Введите 3 октет "))
+    while oct3 < 0 or oct3 > 255:
+        print('Введите от 0 до 255')
+        oct3 = int(input("Введите 3 октет "))
+    oct4 = int(input("Введите 4 октет "))
+    while oct4 < 0 or oct4 > 255:
+        print('Введите от 0 до 255')
+        oct4 = int(input("Введите 4 октет "))
+    mask = int(input("Введите маску "))
+    while mask < 0 or mask > 32:
+        print('Введите от 0 до 32')
+        mask = int(input("Введите маску "))
+
+    print("IP-Адрес - {}.{}.{}.{} / {}".format(oct1, oct2, oct3, oct4, mask))
+
+    if 1 <= mask <= 8:
+        mask1 = oct1 // pow(2, 8 - mask)
+        print("Адрес сети - {}.0.0.0".format(mask1 * pow(2, 8 - mask)))
+        print("Широковещательный адрес - {}.255.255.255".format((pow(2, 8 - mask) - 1) + (mask1 * pow(2, 8 - mask))))
+        print("Маска - {}.0.0.0".format(256 - pow(2, 8 - mask)))
+    elif 9 <= mask <= 16:
+        mask2 = oct2 // pow(2, 16 - mask)
+        print("Адрес сети - {}.{}.0.0".format(oct1, mask2 * pow(2, 16 - mask)))
+        print("Широковещательный адрес - {}.{}.255.255".format(oct1, (pow(2, 16 - mask) - 1) + (mask2 * pow(2, 16 - mask))))
+        print("Маска - 255.{}.0.0".format(256 - pow(2, 16 - mask)))
+    elif 17 <= mask <= 24:
+        mask3 = oct3 // pow(2, 24 - mask)
+        print("Адрес сети - {}.{}.{}.0".format(oct1, oct2, mask3 * pow(2, 24 - mask)))
+        print("Широковещательный адрес - {}.{}.{}.255".format(oct1, oct2, (pow(2, 24 - mask) - 1) + (mask3 * pow(2, 24 - mask))))
+        print("Маска - 255.255.{}.0".format(256 - pow(2, 24 - mask)))
+    elif 25 <= mask <= 32:
+        mask4 = oct4 // pow(2, 32 - mask)
+        print(f"Адрес сети - {oct1}.{oct2}.{oct3}.{mask4 * pow(2, 32 - mask)}")
+        print(f"Широковещательный адрес - {oct1}.{oct2}.{oct3}.{(pow(2, 32 - mask) - 1) + (mask4 * pow(2, 32 - mask))}")
+        print(f"Маска - 255.255.255.{256 - pow(2, 32 - mask)}")
+    if 1 <= mask <= 32:
+        h = pow(2, 32 - mask)
+    print("Количество хостов =", h)
